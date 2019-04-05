@@ -1,24 +1,15 @@
 (function () {
 
-    app.factory('userService',['$http', userService]);
+    app.factory('userService',['$http', '$q', userService]);
 
-    function  userService($http) {
-
-        // var srv = {};
-
-        /*srv.getAll = getAll;
-        srv.getById = getById;
-        srv.getByUserName = getByUserName;
-        srv.create = create;
-        src.update = update;
-        src.remove = remove;*/
+    function  userService($http, $q) {
 
         return{
             getAll: getAll,
         };
 
         function getAll() {
-            return $http.get('/data/userAccount.json')
+            return $http.get('data/userAccount.json')
                 .then(sendResponseData)
                 .catch(sendGetUserlError);
         }

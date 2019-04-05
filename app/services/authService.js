@@ -1,16 +1,12 @@
 (function () {
 
-    app.factory('authService', ['$http', '$timeout', '$location', '$rootScope', 'userService', authService]);
+    app.factory('authService', ['$http', '$timeout', '$location', '$sessionStorage', 'userService', authService]);
 
-    function authService($http, $timeout, $location, $rootScope, userService) {
-        // var srv = {};
-
-        // srv.login = login;
-       /* srv.setCredentials = setCredentials;
-        srv.clearCredentials = clearCredentials;*/
+    function authService($http, $timeout, $location, $sessionStorage, userService) {
 
         return {
-            login: login
+            login: login,
+            logOut: logOut
         };
 
         /*function login(userName, password, callback) {
@@ -33,7 +29,6 @@
             $timeout(function () {
 
                 var usuarios = [];
-                var isLogged = true;
 
                 userService.getAll()
                     .then(function (response){
@@ -43,7 +38,9 @@
 
                             if (usuario.userName === userName && usuario.password === password){
 
-                                isLogged = true;
+                                $sessionStorage.isLogged = true;
+                                var isLogged = $sessionStorage.isLogged;
+                                console.log(isLogged);
                                 response = {success: true};
                                 $location.path('/');
                                 break;
@@ -54,7 +51,12 @@
                         }
 
                 });
-            })
+            }, 1000);
+        }
+
+        function logOut() {
+            //window.sessionStorage.setItem('ngStorage-isLogged', 'false');
+            $sessionStorage.isLogged = false;
         }
 
         /*function setCredentials(userName, password) {
